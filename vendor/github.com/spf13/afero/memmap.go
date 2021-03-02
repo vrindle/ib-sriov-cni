@@ -43,7 +43,11 @@ func (m *MemMapFs) getData() map[string]*mem.FileData {
 		// Root should always exist, right?
 		// TODO: what about windows?
 		root := mem.CreateDir(FilePathSeparator)
+<<<<<<< HEAD
 		mem.SetMode(root, os.ModeDir|0o755)
+=======
+		mem.SetMode(root, os.ModeDir|0755)
+>>>>>>> 2e9ceb2 (fix vendor modules.txt to go.mod)
 		m.data[FilePathSeparator] = root
 	})
 	return m.data
@@ -284,7 +288,11 @@ func (m *MemMapFs) RemoveAll(path string) error {
 	defer m.mu.RUnlock()
 
 	for p := range m.getData() {
+<<<<<<< HEAD
 		if p == path || strings.HasPrefix(p, path+FilePathSeparator) {
+=======
+		if strings.HasPrefix(p, path) {
+>>>>>>> 2e9ceb2 (fix vendor modules.txt to go.mod)
 			m.mu.RUnlock()
 			m.mu.Lock()
 			delete(m.getData(), p)

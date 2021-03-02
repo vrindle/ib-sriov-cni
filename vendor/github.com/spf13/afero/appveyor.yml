@@ -8,3 +8,13 @@ build_script:
 - cmd: >-
     go version
 
+<<<<<<< HEAD
+=======
+    go env
+
+    go get -v github.com/spf13/afero/...
+
+    go build -v github.com/spf13/afero/...
+test_script:
+- cmd: go test -count=1 -cover -race -v github.com/spf13/afero/...
+>>>>>>> 2e9ceb2 (fix vendor modules.txt to go.mod)

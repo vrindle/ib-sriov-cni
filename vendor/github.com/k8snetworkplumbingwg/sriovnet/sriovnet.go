@@ -14,6 +14,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/vishvananda/netlink"
 
+<<<<<<< HEAD:vendor/github.com/k8snetworkplumbingwg/sriovnet/sriovnet.go
 	utilfs "github.com/k8snetworkplumbingwg/sriovnet/pkg/utils/filesystem"
 	"github.com/k8snetworkplumbingwg/sriovnet/pkg/utils/netlinkops"
 )
@@ -29,6 +30,18 @@ var (
 	pciAddressRe      = regexp.MustCompile(`^[0-9a-f]{4}:[0-9a-f]{2}:[01][0-9a-f].[0-7]$`)
 	auxiliaryDeviceRe = regexp.MustCompile(`^(\S+\.){2}\d+$`)
 )
+=======
+	utilfs "github.com/Mellanox/sriovnet/pkg/utils/filesystem"
+)
+
+const (
+	// Used locally
+	etherEncapType = "ether"
+	ibEncapType    = "infiniband"
+)
+
+var virtFnRe = regexp.MustCompile(`virtfn(\d+)`)
+>>>>>>> 2e9ceb2 (fix vendor modules.txt to go.mod):vendor/github.com/Mellanox/sriovnet/sriovnet.go
 
 type VfObj struct {
 	Index      int
@@ -53,6 +66,7 @@ func SetPFLinkUp(pfNetdevName string) error {
 	return netlinkops.GetNetlinkOps().LinkSetUp(handle)
 }
 
+<<<<<<< HEAD:vendor/github.com/k8snetworkplumbingwg/sriovnet/sriovnet.go
 func IsVfPciVfioBound(pciAddr string) bool {
 	driverLink := filepath.Join(PciSysDir, pciAddr, "driver")
 	driverPath, err := utilfs.Fs.Readlink(driverLink)
@@ -63,6 +77,8 @@ func IsVfPciVfioBound(pciAddr string) bool {
 	return driverName == "vfio-pci"
 }
 
+=======
+>>>>>>> 2e9ceb2 (fix vendor modules.txt to go.mod):vendor/github.com/Mellanox/sriovnet/sriovnet.go
 func IsSriovSupported(netdevName string) bool {
 	maxvfs, err := getMaxVfCount(netdevName)
 	if maxvfs == 0 || err != nil {
@@ -123,7 +139,11 @@ func DisableSriov(pfNetdevName string) error {
 }
 
 func GetPfNetdevHandle(pfNetdevName string) (*PfNetdevHandle, error) {
+<<<<<<< HEAD:vendor/github.com/k8snetworkplumbingwg/sriovnet/sriovnet.go
 	pfLinkHandle, err := netlinkops.GetNetlinkOps().LinkByName(pfNetdevName)
+=======
+	pfLinkHandle, err := netlink.LinkByName(pfNetdevName)
+>>>>>>> 2e9ceb2 (fix vendor modules.txt to go.mod):vendor/github.com/Mellanox/sriovnet/sriovnet.go
 	if err != nil {
 		return nil, err
 	}
@@ -188,7 +208,11 @@ func BindVf(handle *PfNetdevHandle, vf *VfObj) error {
 }
 
 func GetVfDefaultMacAddr(vfNetdevName string) (string, error) {
+<<<<<<< HEAD:vendor/github.com/k8snetworkplumbingwg/sriovnet/sriovnet.go
 	ethHandle, err1 := netlinkops.GetNetlinkOps().LinkByName(vfNetdevName)
+=======
+	ethHandle, err1 := netlink.LinkByName(vfNetdevName)
+>>>>>>> 2e9ceb2 (fix vendor modules.txt to go.mod):vendor/github.com/Mellanox/sriovnet/sriovnet.go
 	if err1 != nil {
 		return "", err1
 	}
@@ -452,15 +476,23 @@ func GetPfPciFromVfPci(vfPciAddress string) (string, error) {
 // returns the correlate list of netdevices
 func GetNetDevicesFromPci(pciAddress string) ([]string, error) {
 	pciDir := filepath.Join(PciSysDir, pciAddress, "net")
+<<<<<<< HEAD:vendor/github.com/k8snetworkplumbingwg/sriovnet/sriovnet.go
 	return getFileNamesFromPath(pciDir)
 }
 
 // GetPciFromNetDevice returns the PCI address associated with a network device name
 func GetPciFromNetDevice(name string) (string, error) {
 	devPath := filepath.Join(NetSysDir, name)
+=======
+	_, err := utilfs.Fs.Stat(pciDir)
+	if err != nil {
+		return nil, fmt.Errorf("cannot get a network device with pci address %v %v", pciAddress, err)
+	}
+>>>>>>> 2e9ceb2 (fix vendor modules.txt to go.mod):vendor/github.com/Mellanox/sriovnet/sriovnet.go
 
 	realPath, err := utilfs.Fs.Readlink(devPath)
 	if err != nil {
+<<<<<<< HEAD:vendor/github.com/k8snetworkplumbingwg/sriovnet/sriovnet.go
 		return "", fmt.Errorf("device %s not found: %s", name, err)
 	}
 
@@ -485,4 +517,29 @@ func GetPciFromNetDevice(name string) (string, error) {
 		return "", fmt.Errorf("device %s is not a PCI device: %s", name, realPath)
 	}
 	return base, nil
+=======
+		return nil, fmt.Errorf("failed to get network device name in %v %v", pciDir, err)
+	}
+
+	netDevices := make([]string, 0, len(netDevicesFiles))
+	for _, netDeviceFile := range netDevicesFiles {
+		netDevices = append(netDevices, strings.TrimSpace(netDeviceFile.Name()))
+	}
+	return netDevices, nil
+>>>>>>> 2e9ceb2 (fix vendor modules.txt to go.mod):vendor/github.com/Mellanox/sriovnet/sriovnet.go
+}
+
+// GetPfPciFromVfPci retrieves the parent PF PCI address of the provided VF PCI address in D:B:D.f format
+func GetPfPciFromVfPci(vfPciAddress string) (string, error) {
+	pfPath := filepath.Join(PciSysDir, vfPciAddress, "physfn")
+	pciDevDir, err := utilfs.Fs.Readlink(pfPath)
+	if err != nil {
+		return "", fmt.Errorf("failed to read physfn link, provided address may not be a VF. %v", err)
+	}
+
+	pf := path.Base(pciDevDir)
+	if pf == "" {
+		return pf, fmt.Errorf("could not find PF PCI Address")
+	}
+	return pf, err
 }

@@ -11,7 +11,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+<<<<<<< HEAD
 //go:build aix || darwin || openbsd || freebsd || netbsd || dragonfly
+=======
+>>>>>>> 2e9ceb2 (fix vendor modules.txt to go.mod)
 // +build aix darwin openbsd freebsd netbsd dragonfly
 
 package afero

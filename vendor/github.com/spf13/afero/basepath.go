@@ -220,3 +220,8 @@ func (b *BasePathFs) ReadlinkIfPossible(name string) (string, error) {
 	}
 	return "", &os.PathError{Op: "readlink", Path: name, Err: ErrNoReadlink}
 }
+<<<<<<< HEAD
+=======
+
+// vim: ts=4 sw=4 noexpandtab nolist syn=go
+>>>>>>> 2e9ceb2 (fix vendor modules.txt to go.mod)

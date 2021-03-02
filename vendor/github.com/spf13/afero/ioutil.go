@@ -192,7 +192,11 @@ func TempFile(fs Fs, dir, pattern string) (f File, err error) {
 	nconflict := 0
 	for i := 0; i < 10000; i++ {
 		name := filepath.Join(dir, prefix+nextRandom()+suffix)
+<<<<<<< HEAD
 		f, err = fs.OpenFile(name, os.O_RDWR|os.O_CREATE|os.O_EXCL, 0o600)
+=======
+		f, err = fs.OpenFile(name, os.O_RDWR|os.O_CREATE|os.O_EXCL, 0600)
+>>>>>>> 2e9ceb2 (fix vendor modules.txt to go.mod)
 		if os.IsExist(err) {
 			if nconflict++; nconflict > 10 {
 				randmu.Lock()
@@ -225,7 +229,11 @@ func TempDir(fs Fs, dir, prefix string) (name string, err error) {
 	nconflict := 0
 	for i := 0; i < 10000; i++ {
 		try := filepath.Join(dir, prefix+nextRandom())
+<<<<<<< HEAD
 		err = fs.Mkdir(try, 0o700)
+=======
+		err = fs.Mkdir(try, 0700)
+>>>>>>> 2e9ceb2 (fix vendor modules.txt to go.mod)
 		if os.IsExist(err) {
 			if nconflict++; nconflict > 10 {
 				randmu.Lock()

@@ -269,7 +269,11 @@ func (f *File) Seek(offset int64, whence int) (int64, error) {
 }
 
 func (f *File) Write(b []byte) (n int, err error) {
+<<<<<<< HEAD
 	if f.closed {
+=======
+	if f.closed == true {
+>>>>>>> 2e9ceb2 (fix vendor modules.txt to go.mod)
 		return 0, ErrFileClosed
 	}
 	if f.readOnly {

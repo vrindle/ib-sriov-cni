@@ -4,8 +4,15 @@ go 1.19
 
 require (
 	github.com/Mellanox/rdma-cni v1.0.1
+<<<<<<< HEAD
 	github.com/containernetworking/cni v1.1.2
 	github.com/containernetworking/plugins v1.2.0
+=======
+	github.com/Mellanox/sriovnet v1.0.2
+	github.com/containernetworking/cni v0.7.1
+	github.com/containernetworking/plugins v0.8.5
+	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
+>>>>>>> 2e9ceb2 (fix vendor modules.txt to go.mod)
 	github.com/gofrs/flock v0.7.1
 	github.com/k8snetworkplumbingwg/sriovnet v1.2.0
 	github.com/onsi/ginkgo v1.16.5
@@ -26,10 +33,16 @@ require (
 	github.com/safchain/ethtool v0.2.0 // indirect
 	github.com/spf13/afero v1.9.4 // indirect
 	github.com/stretchr/objx v0.2.1-0.20190415111823-35313a95ee26 // indirect
+<<<<<<< HEAD
 	github.com/vishvananda/netns v0.0.4 // indirect
 	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/sys v0.5.0 // indirect
 	golang.org/x/text v0.8.0 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
+=======
+	github.com/stretchr/testify v1.5.1
+	github.com/vishvananda/netlink v1.1.0
+	gopkg.in/yaml.v2 v2.2.8 // indirect
+>>>>>>> 2e9ceb2 (fix vendor modules.txt to go.mod)
 )
